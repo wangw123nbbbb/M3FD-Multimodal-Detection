@@ -1,5 +1,13 @@
+# PyCharm setting
 .idea
 
+# dataset
 dataset/labels
 dataset/infrared
 dataset/visible
+
+# ignore everything in runs
+runs/*
+
+# but keep README.md
+!runs/README.md

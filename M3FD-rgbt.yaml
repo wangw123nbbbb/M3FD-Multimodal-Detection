@@ -1,0 +1,9 @@
+path: D:/A_Programming_Projects/Python_Projects/M3FD-Multimodal-Detection/dataset
+train: visible/train
+val: visible/test
+
+# number of classes
+nc: 6
+
+# class names
+names: ['People', 'Car', 'Bus', 'Lamp', 'Motorcycle', 'Truck']

@@ -1,0 +1,1 @@
+This is the folder where training and testing results are stored.
