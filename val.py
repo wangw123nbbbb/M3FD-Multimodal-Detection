@@ -1,4 +1,5 @@
 import os
+import argparse
 import warnings
 import numpy as np
 from prettytable import PrettyTable
@@ -8,23 +9,60 @@ from ultralytics import YOLO
 from ultralytics.utils.torch_utils import model_info
 
 
+def parse_args():
+    parser = argparse.ArgumentParser(description='YOLO11 RGBT Validation Script')
+
+    # Model and dataset config
+    parser.add_argument('--mode', type=str, default='midfusion', help='Training mode')
+    parser.add_argument('--dataset', type=str, default='M3FD', help='Dataset name')
+    parser.add_argument('--weights', type=str, default=None,
+                        help='Model weights path (default: runs/{mode}/train/weights/best.pt)')
+
+    # Validation parameters
+    parser.add_argument('--split', type=str, default='val', help='Dataset split to use (train/val/test)')
+    parser.add_argument('--imgsz', type=int, default=640, help='Input image size')
+    parser.add_argument('--batch', type=int, default=4, help='Batch size')
+
+    # Device and output
+    parser.add_argument('--device', type=str, default='0', help='CUDA device ID')
+    parser.add_argument('--use_simotm', type=str, default='RGBT', help='Modality type')
+    parser.add_argument('--channels', type=int, default=4, help='Number of input channels')
+    parser.add_argument('--project', type=str, default=None, help='Project save directory (default: runs/{mode})')
+    parser.add_argument('--name', type=str, default='test', help='Experiment name')
+
+    return parser.parse_args()
+
+
 def get_weight_size(path):
     stats = os.stat(path)
     return f'{stats.st_size / 1024 / 1024:.1f}'
 
 
 if __name__ == '__main__':
-    model_path = './runs/1/train/weights/best.pt'
+    args = parse_args()
+
+    # Select data config based on dataset
+    if args.dataset == 'M3FD':
+        data_yaml = './M3FD-rgbt.yaml'
+
+    # Set default paths if not specified
+    project = args.project if args.project else f'runs/{args.mode}'
+    model_path = args.weights if args.weights else f'runs/{args.mode}/train/weights/best.pt'
+
     model = YOLO(model_path)
-    result = model.val(data='./M3FD-rgbt.yaml',
-                       split='val',
-                       imgsz=640,
-                       batch=4,
-                       use_simotm="RGBT",
-                       channels=4,
-                       project='runs/1',
-                       name='test',
-                       )
+    print(f'Using model weights: {model_path}')
+
+    result = model.val(
+        data=data_yaml,
+        split=args.split,
+        imgsz=args.imgsz,
+        batch=args.batch,
+        device=args.device,
+        use_simotm=args.use_simotm,
+        channels=args.channels,
+        project=project,
+        name=args.name,
+    )
 
     if model.task == 'detect':
         model_names = list(result.names.values())
