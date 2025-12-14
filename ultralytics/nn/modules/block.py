@@ -43,6 +43,7 @@ __all__ = (
     "SPPELAN",
     "CBFuse",
     "CBLinear",
+    "C3k",
     "C3k2",
     "C2fPSA",
     "C2PSA",

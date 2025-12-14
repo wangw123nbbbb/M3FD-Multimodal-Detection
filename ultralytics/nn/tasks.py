@@ -75,6 +75,7 @@ from ultralytics.nn.modules import (
     v10Detect, DetectDeepDBB, DetectWDBB, DetectV8, DetectAux,
     Detect_LSCD, Segment_LSCD, Pose_LSCD, OBB_LSCD,
 )
+from ultralytics.nn.new_modules import *
 
 from ultralytics.utils import DEFAULT_CFG_DICT, DEFAULT_CFG_KEYS, LOGGER, colorstr, emojis, yaml_load
 from ultralytics.utils.checks import check_requirements, check_suffix, check_yaml
@@ -1009,6 +1010,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             C2,
             C2f,
             C3k2,C3k2_DeepDBB,C3k2_DBB,C3k2_WDBB,C2f_DeepDBB,C2f_WDBB,C2f_DBB,C3k_RDBB,C2f_RDBB,C3k2_RDBB,A2C2f,DSC3k2,
+            C3k2_RVB_EMA, C3k2_RVB, C3k2_AdditiveBlock_CGLU,C3k2_DWR_DRB,
             ConvNormLayer,BasicBlock,BottleNeck,
             MANet, MANet_FasterBlock, MANet_FasterCGLU,MANet_Star,
             RepNCSPELAN4,
@@ -1036,6 +1038,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             C2,
             C2f,
             C3k2,C3k2_DeepDBB,C3k2_DBB,C3k2_WDBB,C2f_DeepDBB,C2f_WDBB,C2f_DBB,C3k_RDBB,C2f_RDBB,C3k2_RDBB,A2C2f,DSC3k2,
+            C3k2_RVB_EMA, C3k2_RVB,C3k2_AdditiveBlock_CGLU,C3k2_DWR_DRB,
             MANet, MANet_FasterBlock, MANet_FasterCGLU, MANet_Star,
             C2fAttn,
             C3,
@@ -1076,7 +1079,7 @@ def parse_model(d, ch, verbose=True):  # model_dict, input_channels(3)
             if m in repeat_modules :
                 args.insert(2, n)  # number of repeats
                 n = 1
-            if m in (C3k2,):  # for M/L/X sizes
+            if m in (C3k2, C3k2_RVB_EMA, C3k2_RVB, C3k2_AdditiveBlock_CGLU, C3k2_DWR_DRB):  # for M/L/X sizes
                 legacy = False
                 if scale in "mlx":
                     args[3] = True
