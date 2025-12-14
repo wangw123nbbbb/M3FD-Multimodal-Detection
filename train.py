@@ -14,9 +14,9 @@ def parse_args():
 
     # Training parameters
     parser.add_argument('--imgsz', type=int, default=640, help='Input image size')
-    parser.add_argument('--epochs', type=int, default=200, help='Number of training epochs')
+    parser.add_argument('--epochs', type=int, default=300, help='Number of training epochs')
     parser.add_argument('--batch', type=int, default=32, help='Batch size')
-    parser.add_argument('--close_mosaic', type=int, default=20, help='Disable mosaic augmentation after N epochs')
+    parser.add_argument('--close_mosaic', type=int, default=30, help='Disable mosaic augmentation after N epochs')
     parser.add_argument('--workers', type=int, default=8, help='Number of data loading workers')
     parser.add_argument('--cache', action='store_true', help='Cache dataset in memory')
 
