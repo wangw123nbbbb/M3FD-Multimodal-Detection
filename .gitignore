@@ -9,5 +9,6 @@ dataset/visible
 # ignore everything in runs
 runs/*
 
-# but keep README.md
+# but keep README.md and extract_metrics.py
 !runs/README.md
+!runs/extract_metrics.py
